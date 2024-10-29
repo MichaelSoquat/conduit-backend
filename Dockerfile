@@ -5,12 +5,14 @@ WORKDIR /app
 COPY . $WORKDIR
 
 RUN apt-get update && \
-    apt-get install -y build-essential gcc
+    apt-get install -y build-essential gcc 
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
-    chmod +x /app/entrypoint.sh
+    python manage.py makemigrations && \
+    python manage.py migrate && \
+    python manage.py createsuperuser --noinput
 
 EXPOSE 8000
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8000", "conduit.wsgi:application"]
