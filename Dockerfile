@@ -15,4 +15,4 @@ RUN pip install --upgrade pip && \
 
 EXPOSE 8000
 
-ENTRYPOINT ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8000", "conduit.wsgi:application"]
+ENTRYPOINT ["/app/entrypoint.sh"]
