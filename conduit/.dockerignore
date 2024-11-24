@@ -1,0 +1,13 @@
+.git
+Dockerfile
+docker-compose.yml
+.vscode/
+.idea/
+
+.Python
+env/
+build/
+develop-eggs/
+dist/
+
+db.sqlite3

@@ -93,6 +93,7 @@ class ArticleViewSet(mixins.CreateModelMixin,
             raise NotFound('An article with this slug does not exist.')
             
         serializer_data = request.data.get('article', {})
+        serializer_context = {'request': request}
 
         serializer = self.serializer_class(
             serializer_instance, 
@@ -105,6 +106,14 @@ class ArticleViewSet(mixins.CreateModelMixin,
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+def destroy(self, request, slug):
+        try:
+            article = self.queryset.get(slug=slug)
+        except Article.DoesNotExist:
+            raise NotFound('Aricle with slug not exists')
+
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CommentsListCreateAPIView(generics.ListCreateAPIView):
     lookup_field = 'article__slug'
