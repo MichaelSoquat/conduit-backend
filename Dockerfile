@@ -11,25 +11,10 @@ RUN apt-get update \
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-FROM base as build
-
-WORKDIR /usr/src/app
-
 COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
 
 RUN chmod +x /usr/src/app/entrypoint.sh
-
-FROM python:3.6-slim
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-WORKDIR /usr/src/app
-
-COPY --from=build /usr/src/app /usr/src/app
 
 EXPOSE 8000
 
